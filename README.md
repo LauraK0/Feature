@@ -8,12 +8,26 @@ Pieces required:
 - player one tokens
 - player two tokens
 
+How the game is played
+- pieces is placed in at the top
+- falls to the bottom through gravity
+- once it reaches base or tokens already in column, element stops
+- each player takes turns
+- player wins when 4 coins in a row in any direction
+
 ## Building 
-HTML 
+### building the grid
+- can either hard code grid in html or build it with javascript
+- html would require at least 47 grid elements
+- 
 
-CSS
+### building the player interaction
 
-Javascript
+### building the rules
+
+### building the winner
+- option 1 compare tokens being played against all possible winning arrays 
+- 
 
 ## Debugging
 

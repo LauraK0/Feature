@@ -1,22 +1,116 @@
-.grid {
-    width: 140px;
-    height: 120px;
-    border: solid 1px black;
-    display: flex;
-    flex-wrap: wrap;
-  }
+* {
+  box-sizing: border-box;
+  color: #777;
+}
 
-  .grid div{
-    height: 20px;
-    width: 20px;
-  }
+/* header graphics*/
 
-  .player-one {
-    background-color: red;
-    border-radius: 10px;
-  }
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
 
-  .player-two {
-    background-color: blue;
-    border-radius: 10px;
-  }
+body, html {
+height: 100%;
+color: #777;
+line-height: 1.8;
+text-align: center;
+}
+
+
+.main-header {
+  background-color: rgba(0, 0, 0, .2);
+  background-image: url("./images/connect-four.jpg");
+  background-blend-mode: multiply;
+  background-size: cover;
+  padding-bottom: 30px;
+  height: 20em;
+}
+
+.header-text {
+  font-size: 260%;
+  padding:12px;
+  color: white;
+  opacity: 0.8;
+  text-align:center;
+}
+
+.game-section{
+  display: grid;
+  justify-content: center;
+  grid-auto-flow: column;
+}
+
+.scoreboard-section{
+  height:800px;
+}
+/* game graphics*/
+
+#gameContainer{
+  position: absolute;
+  width:520px;
+  height:420px;
+  display:flex;
+  transform: translateX(26.5em);
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  border: 7px solid blue;
+  margin:20px;
+  box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2);
+}
+
+.column{
+  border-top:7px solid blue;
+  border-left:14px solid blue;
+  border-right:14px solid blue;
+  border-bottom:14px solid blue;
+  width:73px;
+  background-color: blue;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+  position: relative;
+}
+.slot{
+  background-color: white;
+  width:100%;
+  position: absolute;
+  z-index: 2;
+  height:48px;
+  border-radius: 50%;
+}
+.slot.clickable.red:hover{
+  background-color: red;
+}
+.slot.clickable.yellow:hover{
+  background-color: yellow;
+}
+
+#playButton{
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+#playButton:hover{
+  background-color: grey;
+}
+
+/*scoreboard */
+
+#scoreBoard{
+  position:relative;
+  bottom:0;
+  display:flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  margin-left: 30em;
+  margin-right: 30em;
+}
+
+.scores{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

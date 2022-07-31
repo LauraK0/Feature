@@ -1,70 +1,47 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html>
+
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <title>Connect Four</title>
-    <link rel="stylesheet" href="./connect-four.css">
+    <link href="./connect-four.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
-<h3>The current Player is: Player <span id="current-player">1</span></h3>
-<h3 id="result"></h3>
 
-<br>
-
-    <div class="grid">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>     
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>     
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>     
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>     
-        <div></div>
-        <div></div>
-        <div></div>
-        <div class="taken"></div>
-        <div class="taken"></div>
-        <div class="taken"></div>
-        <div class="taken"></div>
-        <div class="taken"></div>
-        <div class="taken"></div>
-        <div class="taken"></div>     
-    </div>
+    <header class="main-header">
+        <div  class="display-middle" style="white-space:nowrap;">
+            <h1 class="header-text">CONNECT FOUR</h1>
+        </div>
+    </header>
 
 
+    <div class="footer">
+        <div id='scoreBoard'>
+            <h2>Score Board</h2>
+            <div class='scores'>
+                <div class='score'>
+                    <h4>Red :</h4>
+                    <h5 id='redScore'>0</h5>
+                </div>
+                <div class='score'>
+                    <h4>Yellow :</h4>
+                    <h5 id='yellowScore'>0</h5>
+                </div>
+            </div>
+        </div>
+      </div>
 
-<script src="./app.js" charset="=utf-8"></script>
+
+        <div id="gameContainer">
+        <div id='playButton' onclick="newGame(this)">
+            <div>Play Game</div>
+        </div>
+     </div>
+  
+
+    <script src="./app.js"></script>
 </body>
+
 </html>

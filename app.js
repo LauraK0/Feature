@@ -1,129 +1,194 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const squares = document.querySelectorAll('.grid div')
-  const result = document.querySelector('#result')
-  const displayCurrentPlayer = document.querySelector('#current-player')
-  let currentPlayer = 1
-
-  const winningArrays = [
-    [0, 1, 2, 3],
-    [41, 40, 39, 38],
-    [7, 8, 9, 10],
-    [34, 33, 32, 31],
-    [14, 15, 16, 17],
-    [27, 26, 25, 24],
-    [21, 22, 23, 24],
-    [20, 19, 18, 17],
-    [28, 29, 30, 31],
-    [13, 12, 11, 10],
-    [35, 36, 37, 38],
-    [6, 5, 4, 3],
-    [0, 7, 14, 21],
-    [41, 34, 27, 20],
-    [1, 8, 15, 22],
-    [40, 33, 26, 19],
-    [2, 9, 16, 23],
-    [39, 32, 25, 18],
-    [3, 10, 17, 24],
-    [38, 31, 24, 17],
-    [4, 11, 18, 25],
-    [37, 30, 23, 16],
-    [5, 12, 19, 26],
-    [36, 29, 22, 15],
-    [6, 13, 20, 27],
-    [35, 28, 21, 14],
-    [0, 8, 16, 24],
-    [41, 33, 25, 17],
-    [7, 15, 23, 31],
-    [34, 26, 18, 10],
-    [14, 22, 30, 38],
-    [27, 19, 11, 3],
-    [35, 29, 23, 17],
-    [6, 12, 18, 24],
-    [28, 22, 16, 10],
-    [13, 19, 25, 31],
-    [21, 15, 9, 3],
-    [20, 26, 32, 38],
-    [36, 30, 24, 18],
-    [5, 11, 17, 23],
-    [37, 31, 25, 19],
-    [4, 10, 16, 22],
-    [2, 10, 18, 26],
-    [39, 31, 23, 15],
-    [1, 9, 17, 25],
-    [40, 32, 24, 16],
-    [9, 17, 25, 33],
-    [8, 16, 24, 32],
-    [11, 17, 23, 29],
-    [12, 18, 24, 30],
-    [1, 2, 3, 4],
-    [5, 4, 3, 2],
-    [8, 9, 10, 11],
-    [12, 11, 10, 9],
-    [15, 16, 17, 18],
-    [19, 18, 17, 16],
-    [22, 23, 24, 25],
-    [26, 25, 24, 23],
-    [29, 30, 31, 32],
-    [33, 32, 31, 30],
-    [36, 37, 38, 39],
-    [40, 39, 38, 37],
-    [7, 14, 21, 28],
-    [8, 15, 22, 29],
-    [9, 16, 23, 30],
-    [10, 17, 24, 31],
-    [11, 18, 25, 32],
-    [12, 19, 26, 33],
-    [13, 20, 27, 34],
-  ]
-
-  function checkBoard() {
-    for (let y = 0; y < winningArrays.length; y++) {
-      const square1 = squares[winningArrays[y][0]]
-      const square2 = squares[winningArrays[y][1]]
-      const square3 = squares[winningArrays[y][2]]
-      const square4 = squares[winningArrays[y][3]]
-
-      //check those squares to see if they all have the class of player-one
-      if (
-        square1.classList.contains('player-one') &&
-        square2.classList.contains('player-one') &&
-        square3.classList.contains('player-one') &&
-        square4.classList.contains('player-one')
-      )
-      {
-        result.innerHTML = 'Player One Wins!'
+function newGame(button) {
+  button.style.display = "none";
+  const game = document.getElementById("gameContainer");
+  //columns
+  const columns = [];
+  //array that stores columns/rows
+  const slotsArray = [];
+  //determine the next color
+  let nextColor = "red";
+  //create columns
+  for (let i = 0; i < 7; i++) {
+    const column = document.createElement("div");
+    column.className = "column";
+    game.appendChild(column);
+    columns.push(column);
+  }
+  class Slot {
+    constructor(element, column, row) {
+      this.column = column;
+      this.row = row;
+      this.element = element;
+      this.state = "";
+    }
+    clicked() {
+      const el = this.element;
+      if (!el.classList.contains("clickable")) return;
+      el.style.backgroundColor = nextColor;
+      this.state = nextColor;
+      //make this element not clickable
+      el.classList.remove("clickable");
+      //make next element clickable
+      if (slotsArray[this.column][this.row - 1]) {
+        slotsArray[this.column][this.row - 1].element.classList.add(
+          "clickable",
+          nextColor
+        );
       }
-      //check those squares to see if they all have the class of player-two
-      if (
-        square1.classList.contains('player-two') &&
-        square2.classList.contains('player-two') &&
-        square3.classList.contains('player-two') &&
-        square4.classList.contains('player-two')
-      )
-      {
-        result.innerHTML = 'Player Two Wins!'
-      }
+      //check for game over
+      if (isDraw(slotsArray) == true) gameOver(nextColor);
+
+      if (isWinner(this.column, this.row, nextColor, slotsArray) == true)
+        gameOver(nextColor);
+
+      //change next color
+      let oldColor = nextColor;
+      nextColor == "red" ? (nextColor = "yellow") : (nextColor = "red");
+      document.querySelectorAll(".clickable").forEach((el) => {
+        el.classList.remove(oldColor);
+        el.classList.add(nextColor);
+      });
     }
   }
 
-  for (let i = 0; i < squares.length; i++) {
-    squares[i].onclick = () => {
-      //if the square below your current square is taken, you can go ontop of it
-      if (squares[i + 7].classList.contains('taken') &&!squares[i].classList.contains('taken')) {
-        if (currentPlayer == 1) {
-          squares[i].classList.add('taken')
-          squares[i].classList.add('player-one')
-          currentPlayer = 2
-          displayCurrentPlayer.innerHTML = currentPlayer
-        } else if (currentPlayer == 2){
-          squares[i].classList.add('taken')
-          squares[i].classList.add('player-two')
-          currentPlayer = 1
-          displayCurrentPlayer.innerHTML = currentPlayer        
-        } 
-      } else alert('cant go here')
-      checkBoard()
+  //create slots and push to columns
+  columns.forEach((el, col) => {
+    let slotColumn = [];
+    for (i = 0; i < 6; i++) {
+      const div = document.createElement("div");
+      div.classList.add("slot");
+      el.appendChild(div);
+      const slot = new Slot(div, col, i);
+      slotColumn.push(slot);
+      div.onclick = function () {
+        slot.clicked();
+      };
+      div.style.top = i * 70 + 2 + "px";
     }
-  }
-  
-})
+    slotsArray.push(slotColumn);
+  });
+  slotsArray.forEach((col) => {
+    col[5].element.classList.add("clickable", nextColor);
+  });
+  console.log(slotsArray);
+}
+
+//check if game is draw
+function isDraw(slotsArray) {
+  let isDraw = true;
+  slotsArray.forEach((col) => {
+    col.forEach((slot) => {
+      if (slot.state == "") isDraw = false;
+    });
+  });
+  return isDraw;
+}
+
+//test the lines to see if someone has won
+function testLines(lines, color, slotsArray) {
+  let connectedSlots = 1; //slots touching, if 4 you win
+  lines.forEach((line) => {
+    for (i = 0; i < line.length; i++) {
+      const slotLocation = line[i];
+      column = slotLocation[0];
+      row = slotLocation[1];
+      //don't allow for searching off screen
+      if (column >= 0 && column <= 6 && row >= 0 && row <= 5) {
+        //make sure it is defined
+        if (typeof slotsArray[column][row] !== "undefined") {
+          if (slotsArray[column][row].state == color) {
+            connectedSlots += 1;
+            console.log(connectedSlots);
+          } else break;
+        }
+      } else break;
+    }
+  });
+  if (connectedSlots >= 4) return true;
+  return false;
+}
+
+//check if there is a winner
+function isWinner(col, row, color, slotsArray) {
+  const winningLines = {
+    horizontal: [
+      [
+        [col - 1, row],
+        [col - 2, row],
+        [col - 3, row],
+      ],
+      [
+        [col + 1, row],
+        [col + 2, row],
+        [col + 3, row],
+      ],
+    ],
+    vertical: [
+      [
+        [col, row - 1],
+        [col, row - 2],
+        [col, row - 3],
+      ],
+      [
+        [col, row + 1],
+        [col, row + 2],
+        [col, row + 3],
+      ],
+    ],
+    diagonalLeft: [
+      [
+        [col - 1, row - 1],
+        [col - 2, row - 2],
+        [col - 3, row - 3],
+      ],
+      [
+        [col + 1, row + 1],
+        [col + 2, row + 2],
+        [col + 3, row + 3],
+      ],
+    ],
+    diagonalRight: [
+      [
+        [col - 1, row + 1],
+        [col - 2, row + 2],
+        [col - 3, row + 3],
+      ],
+      [
+        [col + 1, row - 1],
+        [col + 2, row - 2],
+        [col + 3, row - 3],
+      ],
+    ],
+  };
+  if (testLines(winningLines.horizontal, color, slotsArray) == true)
+    return true;
+
+  if (testLines(winningLines.vertical, color, slotsArray) == true) return true;
+  if (testLines(winningLines.diagonalLeft, color, slotsArray) == true)
+    return true;
+
+  if (testLines(winningLines.diagonalRight, color, slotsArray) == true)
+    return true;
+
+  return false;
+}
+
+//check if game is over
+function gameOver(winner) {
+  console.log("game over");
+  setScore(winner);
+  //delete game
+  document.querySelectorAll(".column").forEach((column) => {
+    column.innerHTML = "";
+    column.parentNode.removeChild(column);
+    document.getElementById("playButton").style.display = "inherit";
+  });
+}
+
+//set score on the scoreboard
+function setScore(winner) {
+  if (winner == "undefined") return;
+
+  document.getElementById(winner + "Score").innerHTML =
+    parseInt(document.getElementById(winner + "Score").innerHTML) + 1;
+}
