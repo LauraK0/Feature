@@ -54,7 +54,7 @@ function newGame(button) {
   //create slots and push to columns
   columns.forEach((el, col) => {
     let slotColumn = [];
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < 6; i++) {   
       const div = document.createElement("div");
       div.classList.add("slot");
       el.appendChild(div);
@@ -63,12 +63,12 @@ function newGame(button) {
       div.onclick = function () {
         slot.clicked();
       };
-      div.style.top = i * 70 + 2 + "px";
+      div.style.top = i * 70 + 2 + "px"; //style each slot in column so that they are spaced equally from the top 
     }
     slotsArray.push(slotColumn);
   });
   slotsArray.forEach((col) => {
-    col[5].element.classList.add("clickable", nextColor);
+    col[5].element.classList.add("clickable", nextColor); //hover over each slot that is clickable with next colour in game
   });
   console.log(slotsArray);
 }
@@ -78,7 +78,7 @@ function isDraw(slotsArray) {
   let isDraw = true;
   slotsArray.forEach((col) => {
     col.forEach((slot) => {
-      if (slot.state == "") isDraw = false;
+      if (slot.state == "") isDraw = false; //if any slot returns a blank string then it's not a draw otherwise (statement is false)
     });
   });
   return isDraw;
@@ -113,24 +113,24 @@ function isWinner(col, row, color, slotsArray) {
   const winningLines = {
     horizontal: [
       [
-        [col - 1, row],
+        [col - 1, row], //check the three slots to the left for a match
         [col - 2, row],
         [col - 3, row],
       ],
       [
-        [col + 1, row],
+        [col + 1, row], //check the three slots to the right for a match
         [col + 2, row],
         [col + 3, row],
       ],
     ],
     vertical: [
       [
-        [col, row - 1],
+        [col, row - 1], //check the three slots above for a match
         [col, row - 2],
         [col, row - 3],
       ],
       [
-        [col, row + 1],
+        [col, row + 1], //check the three slots below for a match
         [col, row + 2],
         [col, row + 3],
       ],

@@ -3,31 +3,33 @@
 ## Planning
 Create a two-player game in which players alternately place pieces on a vertical board 7 columns across and 6 rows high.
 
-Pieces required:
+### Pieces required:
 - Board with 7x6 grid
 - player one tokens
 - player two tokens
 
-How the game is played
-- pieces is placed in at the top
-- falls to the bottom through gravity
-- once it reaches base or tokens already in column, element stops
+### How to start the game:
+press a button to start
+
+### How the game is played:
+- pieces are drop in from the top
+- falls vertically to the lowest available space
 - each player takes turns
-- player wins when 4 coins in a row in any direction
+- The objective of the game is to be the first to form a horizontal, vertical, or diagonal line of four of one's own tokens. 
 
 ## Building 
 ### building the grid
 - can either hard code grid in html or build it with javascript
-- html would require at least 47 grid elements
-- 
+- html would require at least 42 grid elements - could become messy
+- to build in javascript create a nested array - runthrough for 7 columns (would need to create CSS style to create columns) and then 6 times for rows (css style with 6 holes/slots)
 
 ### building the player interaction
-
-### building the rules
+- changing between the two players
 
 ### building the winner
-- option 1 compare tokens being played against all possible winning arrays 
-- 
+- need to check for horizontal, vertical, or diagonal line of four of one's own tokens and compare against all possible winning arrays 
+- can either create an array that lists every possible winning combination. Or run through function which tests directionally along matrix relative to current location
+- will need to also check if draw once all items are filled 
 
 ## Debugging
 
