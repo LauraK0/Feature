@@ -1,39 +1,39 @@
 function newGame(button) {
-  button.style.display = "none";
-  const game = document.getElementById("gameContainer");
-  //columns
+  button.style.display = "none"; // when element is clicked 'button' style removed from the html div element
+  const game = document.getElementById("gameContainer"); // create variable called game and apply css style game container
+  //creates array for columns
   const columns = [];
-  //array that stores columns/rows
+  //creates an array that stores rows (ie. slots)
   const slotsArray = [];
-  //determine the next color
+  //create variable that will store / determine the next color in game
   let nextColor = "red";
-  //create columns
-  for (let i = 0; i < 7; i++) {
-    const column = document.createElement("div");
-    column.className = "column";
-    game.appendChild(column);
-    columns.push(column);
+  //loop to create columns
+  for (let i = 0; i < 7; i++) { //loop start index, end terminator (ie. 6), increment one each time 
+    const column = document.createElement("div"); //variable of column and assign html div element to it
+    column.className = "column"; // applies CSS class name of 'column' to div element 
+    game.appendChild(column); // add child element to game variable
+    columns.push(column); //push variable created to columns array
   }
-  class Slot {
-    constructor(element, column, row) {
+  class Slot { //constructs a class called 'Slot'
+    constructor(element, column, row) {  // constrctor essentially parameters which the class is constructed of
       this.column = column;
       this.row = row;
       this.element = element;
-      this.state = "";
+      this.state = ""; //will either be empty, red or yellow. If any slot has empty state not draw has occurred
     }
-    clicked() {
-      const el = this.element;
-      if (!el.classList.contains("clickable")) return;
-      el.style.backgroundColor = nextColor;
-      this.state = nextColor;
-      //make this element not clickable
+    clicked() { //method within class for when slot objects are clicked
+      const el = this.element; //variable to link to class element
+      if (!el.classList.contains("clickable")) return; // if class list does not contain clickable return, else process next line
+      el.style.backgroundColor = nextColor; //style of next color is applied to background
+      this.state = nextColor; //
+      //make this element(slot) not clickable
       el.classList.remove("clickable");
-      //make next element clickable
-      if (slotsArray[this.column][this.row - 1]) {
-        slotsArray[this.column][this.row - 1].element.classList.add(
+      //make element (slot) above clickable
+      if (slotsArray[this.column][this.row - 1]) { //asks the question whether their is a slo t above
+        slotsArray[this.column][this.row - 1].element.classList.add(//adds clickable class list to slots array
           "clickable",
           nextColor
-        );
+        ); //add both clickable and hovering becomes next color
       }
       //check for game over
       if (isDraw(slotsArray) == true) gameOver(nextColor);
@@ -43,8 +43,8 @@ function newGame(button) {
 
       //change next color
       let oldColor = nextColor;
-      nextColor == "red" ? (nextColor = "yellow") : (nextColor = "red");
-      document.querySelectorAll(".clickable").forEach((el) => {
+      nextColor == "red" ? (nextColor = "yellow") : (nextColor = "red"); //if next colour is color is currently red then change to yellow else change to red
+      document.querySelectorAll(".clickable").forEach((el) => { //for each element with class clickable change hover color from red to yellow
         el.classList.remove(oldColor);
         el.classList.add(nextColor);
       });
@@ -52,20 +52,20 @@ function newGame(button) {
   }
 
   //create slots and push to columns
-  columns.forEach((el, col) => {
-    let slotColumn = [];
-    for (i = 0; i < 6; i++) {   
-      const div = document.createElement("div");
-      div.classList.add("slot");
-      el.appendChild(div);
-      const slot = new Slot(div, col, i);
-      slotColumn.push(slot);
-      div.onclick = function () {
+  columns.forEach((el, col) => { //for each columns pass through parameters el and col
+    let slotColumn = []; //create empty array
+    for (i = 0; i < 6; i++) {    //loop 6 times
+      const div = document.createElement("div");  //create a div html element
+      div.classList.add("slot"); //add slot class to the created div
+      el.appendChild(div); //append this div to the parameter el
+      const slot = new Slot(div, col, i);  //add parameter of div, col and i to slot
+      slotColumn.push(slot); //push slot to slot column
+      div.onclick = function () { //add on click functionality to each slot
         slot.clicked();
       };
       div.style.top = i * 70 + 2 + "px"; //style each slot in column so that they are spaced equally from the top 
     }
-    slotsArray.push(slotColumn);
+    slotsArray.push(slotColumn); //push the created array to the slot column array
   });
   slotsArray.forEach((col) => {
     col[5].element.classList.add("clickable", nextColor); //hover over each slot that is clickable with next colour in game
@@ -88,7 +88,7 @@ function isDraw(slotsArray) {
 function testLines(lines, color, slotsArray) {
   let connectedSlots = 1; //slots touching, if 4 you win
   lines.forEach((line) => {
-    for (i = 0; i < line.length; i++) {
+    for (i = 0; i < line.length; i++) { 
       const slotLocation = line[i];
       column = slotLocation[0];
       row = slotLocation[1];
@@ -104,7 +104,7 @@ function testLines(lines, color, slotsArray) {
       } else break;
     }
   });
-  if (connectedSlots >= 4) return true;
+  if (connectedSlots >= 4) return true; 
   return false;
 }
 
