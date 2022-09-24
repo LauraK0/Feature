@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  color: #777;
 }
 
 /* header graphics*/
@@ -9,25 +8,14 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
 
 body, html {
 height: 100%;
-color: #777;
 line-height: 1.8;
 text-align: center;
-}
-
-
-.main-header {
-  background-color: rgba(0, 0, 0, .2);
-  background-image: url("./images/connect-four.jpg");
-  background-blend-mode: multiply;
-  background-size: cover;
-  padding-bottom: 30px;
-  height: 20em;
 }
 
 .header-text {
   font-size: 260%;
   padding:12px;
-  color: white;
+  color: black;
   opacity: 0.8;
   text-align:center;
 }
@@ -38,9 +26,6 @@ text-align: center;
   grid-auto-flow: column;
 }
 
-.scoreboard-section{
-  height:800px;
-}
 /* game graphics*/
 
 #gameContainer{
@@ -100,12 +85,18 @@ text-align: center;
 
 #scoreBoard{
   position:relative;
+  background-color: lightslategrey;
+  width: 520px;
+  border: 0.1em solid black;
+  padding: 1em;
   bottom:0;
   display:flex;
   flex-wrap: nowrap;
   flex-direction: column;
-  margin-left: 30em;
-  margin-right: 30em;
+  margin-top: 3em;
+  margin-bottom: 3em;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .scores{
